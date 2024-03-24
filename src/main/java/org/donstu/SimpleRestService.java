@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 public class SimpleRestService {
-    private static final int PORT = 8080;
+    private static final int PORT = 8081;
     private static final int OK = 200;
     private static final int NOT_ALLOWED = 405;
 
