@@ -47,13 +47,6 @@ public class ShowController {
         int num = Integer.parseInt(id);
         return Response.ok(shows.get(num)).build();
 
-       /*
-       if (shows.size() <= num) {
-            return Response.ok().build();
-        } else {
-            return Response.ok(shows.get(num)).build();
-        }
 
-        */
     }
 }
