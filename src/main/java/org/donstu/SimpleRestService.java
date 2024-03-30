@@ -13,24 +13,24 @@ import java.util.Date;
 import java.util.List;
 
 public class SimpleRestService {
-    private static final int PORT = 8081;
+    private static final int PORT = 8091;
     private static final int OK = 200;
     private static final int NOT_ALLOWED = 405;
-
+    private static final int NOT_FOUND = 404;
 
     private static List<Show> shows = new ArrayList<>();
-    static {
-        shows.add(new Show("Jumbo", new Date(), 115, "Red"));
-        shows.add(new Show("The Good, The Bad, The Ugly", new Date(), 145, "Blue"));
-        shows.add(new Show("Shrek", new Date(), 120, "Green"));
-    }
 
-    private static String params = "/show/list";
+    static {
+        shows.add(new Show("Two people in the elevator, not counting tequila", new Date(), 130, "First"));
+        shows.add(new Show("Crazy Day, or the Marriage of Figaro", new Date(), 145, "Second"));
+        shows.add(new Show("Quiet Don", new Date(), 180, "Second"));
+        shows.add(new Show("It's a Wonderful Life", new Date(), 210, "First"));
+    }
 
     public static void main(String[] args) {
         try {
             HttpServer httpServer = HttpServer.create(new InetSocketAddress(PORT), 0);
-            httpServer.createContext( params, httpExchange -> {
+            httpServer.createContext("/show/list", httpExchange -> {
                 if ("GET".equals(httpExchange.getRequestMethod())) {
                     httpExchange.getResponseHeaders().set("Content-Type", "application/json");
                     httpExchange.sendResponseHeaders(OK, 0);
@@ -45,6 +45,44 @@ public class SimpleRestService {
                     httpExchange.sendResponseHeaders(NOT_ALLOWED, -1);
                 }
             });
+
+            httpServer.createContext("/show/title", httpExchange -> {
+                if ("GET".equals(httpExchange.getRequestMethod())) {
+                    String[] requestParts = httpExchange.getRequestURI().getPath().split("/");
+                    if (requestParts.length == 4) {
+                        String showTitle = requestParts[3];
+                        Show foundShow = null;
+                        for (Show show : shows) {
+                            if (show.getTitle().equalsIgnoreCase(showTitle)) {
+                                foundShow = show;
+                                break;
+                            }
+                        }
+                        if (foundShow != null) {
+                            httpExchange.getResponseHeaders().set("Content-Type", "application/json");
+                            httpExchange.sendResponseHeaders(OK, 0);
+                            ObjectMapper mapper = new ObjectMapper();
+                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                            mapper.writeValue(baos, foundShow);
+                            byte[] body = baos.toByteArray();
+                            OutputStream os = httpExchange.getResponseBody();
+                            os.write(body);
+                            os.close();
+                        } else {
+                            httpExchange.getResponseHeaders().set("Content-Type", "application/json");
+                            httpExchange.sendResponseHeaders(OK, 0);
+                            OutputStream os = httpExchange.getResponseBody();
+                            os.write("{}".getBytes());
+                            os.close();
+                        }
+                    } else {
+                        httpExchange.sendResponseHeaders(NOT_FOUND, -1);
+                    }
+                } else {
+                    httpExchange.sendResponseHeaders(NOT_ALLOWED, -1);
+                }
+            });
+
             httpServer.setExecutor(null);
             httpServer.start();
         } catch (IOException e) {

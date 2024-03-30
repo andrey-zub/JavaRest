@@ -2,18 +2,18 @@ package org.donstu.domain;
 
 import java.io.Serializable;
 
-public class Place implements Serializable {
+public class Seat implements Serializable {
     private String hall;
     private int row;
-    private int place;
+    private int seat;
 
-    public Place() {
+    public Seat() {
     }
 
-    public Place(String hall, int row, int place) {
+    public Seat(String hall, int row, int seat) {
         this.hall = hall;
         this.row = row;
-        this.place = place;
+        this.seat = seat;
     }
 
     public String getHall() {
@@ -32,20 +32,20 @@ public class Place implements Serializable {
         this.row = row;
     }
 
-    public int getPlace() {
-        return place;
+    public int getSeat() {
+        return seat;
     }
 
-    public void setPlace(int place) {
-        this.place = place;
+    public void setSeat(int seat) {
+        this.seat = seat;
     }
 
     @Override
     public String toString() {
-        return "Place{" +
+        return "Seat{" +
                 "hall='" + hall + '\'' +
                 ", row=" + row +
-                ", place=" + place +
+                ", seat=" + seat +
                 '}';
     }
 }

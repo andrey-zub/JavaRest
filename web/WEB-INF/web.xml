@@ -12,7 +12,7 @@
         </init-param>
         <init-param>
             <param-name>jersey.config.server.provider.classnames</param-name>
-            <param-value>org.donstu.controllers.ShowController</param-value>
+            <param-value>org.donstu.controllers.MovieController</param-value>
         </init-param>
         <init-param>
             <param-name>org.glassfish.jersey.media.json.JSONMarshaller.formatted</param-name>

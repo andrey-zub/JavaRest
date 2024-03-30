@@ -12,13 +12,12 @@ import java.io.InputStreamReader;
 public class SimpleRestClient {
     public static void main(String[] args) {
         HttpClient client = new DefaultHttpClient();
-        HttpGet request = new HttpGet("http://localhost:8080/show/4");
+        HttpGet request = new HttpGet("http://localhost:8091/show/list");
         HttpResponse response = null;
 
         try {
             response = client.execute(request);
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(response.getEntity().getContent()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             String line = "";
             while (true) {
                 if ((line = reader.readLine()) == null) {
