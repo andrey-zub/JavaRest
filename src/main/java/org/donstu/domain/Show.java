@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Show implements Serializable {
+    private String ident;
+
     private String title;
 
     private Date startAt;
@@ -15,12 +17,15 @@ public class Show implements Serializable {
     public Show() {
     }
 
-    public Show(String title, Date startAt, int duration, String hall) {
+    public Show(String ident,String title, Date startAt, int duration, String hall) {
+        this.ident = ident;
         this.title = title;
         this.startAt = startAt;
         this.duration = duration;
         this.hall = hall;
     }
+
+    public String getIdent() { return ident; }
 
     public String getTitle() {
         return title;
